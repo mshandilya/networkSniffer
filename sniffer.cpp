@@ -1,4 +1,3 @@
-
 #include <bits/stdc++.h>
 #include <sys/time.h>
 #include <sys/socket.h>
@@ -185,6 +184,6 @@ int main() {
     fprintf(stdout, "Total number of bytes received:\t\t\t\t\t %lld\n", total_bytes);
     fprintf(stdout, "Total number of packets received:\t\t\t\t %lld\n", total_packets);
     fprintf(stdout, "PPS Speed:\t\t\t\t\t\t\t %lf pps\n", ((double)total_packets/(double)(std::chrono::duration_cast<std::chrono::seconds>(total_time)).count()));
-    fprintf(stdout, "MbPS Speed:\t\t\t\t\t\t\t %lf Mbps\n", ((double)total_bytes/((double)(std::chrono::duration_cast<std::chrono::seconds>(total_time)).count() * 1e6)));
+    fprintf(stdout, "MBPS Speed:\t\t\t\t\t\t\t %lf MBps\n", ((double)total_bytes/((double)(std::chrono::duration_cast<std::chrono::seconds>(total_time)).count() * 1e6)));
     return 0;
 }
