@@ -47,6 +47,7 @@ int main() {
     struct tcphdr* tcpHeader;
     struct udphdr* udpHeader;
     struct icmphdr* icmpHeader;
+    struct udplitehdr* udplHeader;
     const uint16_t* sctp_header;
 
     std::vector<int> data_sizes;
@@ -105,6 +106,7 @@ int main() {
                 }
                 break;
             case IPPROTO_UDP:
+            case IPPROTO_UDPLITE:
                 udpHeader = (struct udphdr*)(buffer + sizeof(struct ethhdr) + ipHeader->ihl*4);
                 unique_sd[std::make_tuple(ipHeader->saddr, ipHeader->daddr, ntohs(udpHeader->source), ntohs(udpHeader->dest))]++;
                 break;
@@ -114,6 +116,12 @@ int main() {
             case 128:
                 sctp_header = reinterpret_cast<const uint16_t*>(buffer + sizeof(struct ethhdr) + ipHeader->ihl*4);
                 unique_sd[std::make_tuple(ipHeader->saddr, ipHeader->daddr, ntohs(sctp_header[0]), ntohs(sctp_header[1]))]++;
+                break;
+            case IPPROTO_IGMP:
+                unique_sd[std::make_tuple(ipHeader->saddr, ipHeader->daddr, 0, 0)]++;
+                break;
+            case 21:
+                unique_sd[std::make_tuple(ipHeader->saddr, ipHeader->daddr, 0, 0)]++;
                 break;
             default:
                 fprintf(undefprotos, "%d\n", ipHeader->protocol);
